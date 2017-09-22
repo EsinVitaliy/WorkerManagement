@@ -1,0 +1,2 @@
+Программа использует SQL Server, который ставится вместе с Visual Studio.
+Если SQL Server не установлен - необходимо его установить и прописать путь в файле "WorkerManagement\App.config" вместо "(localdb)\MSSQLLocalDB" на актуальный путь к SQL Server'у.

@@ -1,0 +1,66 @@
+﻿<Window x:Class="WorkerManagementUI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkerManagementUI.Views"
+        xmlns:viewModels="clr-namespace:WorkerManagementBLL.ViewModels;assembly=WorkerManagementBLL"
+        xmlns:converters="clr-namespace:WorkerManagementUI.Converters"
+        mc:Ignorable="d"
+        Title="Управление сотрудниками"
+        Width="720" Height="350"
+        WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance viewModels:MainViewModel}">
+
+    <Window.Resources>
+        <converters:BooleanToSexConverter x:Key="BooleanToSexConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <ToolBarPanel Grid.Row="0">
+            <Menu>
+                <MenuItem Header="Операции">
+                    <MenuItem Header="Добавление записи" Click="ItemAddRecord_OnClick"/>
+                    <MenuItem Header="Удаление записи" Command="{Binding DeleteCommand}" />
+                    <MenuItem Header="Редактирование записи" Click="ItemEditRecord_OnClick"/>
+                </MenuItem>
+            </Menu>
+        </ToolBarPanel>
+
+
+        <DataGrid Name="GridWorkers" Grid.Row="1"  AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True"
+                  ItemsSource="{Binding Workers}" SelectedItem="{Binding SelectedItem}" MouseDoubleClick="GridWorkers_OnMouseDoubleClick">
+
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавление записи" Click="ItemAddRecord_OnClick"/>
+                    <MenuItem Header="Удаление записи" Command="{Binding DeleteCommand}" />
+                    <MenuItem Header="Редактирование записи" Click="ItemEditRecord_OnClick"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="30"  />
+
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="100"  />
+
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="100"  />
+
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, StringFormat=dd.MM.yyyy}" Width="100"  />
+
+                <DataGridTextColumn Header="Пол" Binding="{Binding SexIsMale, Converter={StaticResource BooleanToSexConverter}}" Width="100"  />
+
+                <DataGridCheckBoxColumn Header="Наличие детей" Binding="{Binding ChildrenExists}" Width="100"  />
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </Grid>
+</Window>
